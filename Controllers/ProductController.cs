@@ -24,49 +24,54 @@ namespace Curdoperation_Problem_.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Create([FromBody] ProductCreateDto rec)
+		public IActionResult CreateProduct([FromBody] ProductCreateDto rec)
 		{
 			if (rec == null)
 				return BadRequest("No data is added");
 
-			//var categoryExists = _Context.Categories.Any(c => c.CategoryID == rec.CategoryID);
-			
-			//if (!categoryExists)
-			//	return BadRequest("Invalid CategoryID. The category does not exist.");
+			var categoryExists = _Context.Categories.Any(c => c.CategoryID == rec.CategoryID);
+
+			if (!categoryExists)
+				return BadRequest("Invalid CategoryID. The category does not exist.");
 
 			// Map DTO to entity and save
 			var model = rec.FromProductCreateDtoToProduct();
 			_Context.Products.Add(model);
 			_Context.SaveChanges();
-			return CreatedAtAction("Create", model.FromProductToProductDto());
+			return CreatedAtAction("CreateProduct", model.FromProductToProductDto());
 		}
 
-		[HttpPost]
-		public IActionResult Created([FromBody] ProductCreateDto rec)
+		[HttpPut("{id}")]
+		public IActionResult UpdateProduct([FromBody] ProductUpdateDto rec, [FromRoute] int id)
 		{
+			if (id == 0)
+				return BadRequest("Invalid ID");
+
 			if (rec == null)
-				return BadRequest("No data is added");
+				return BadRequest("No data is Updated");
 
-			// Log incoming data for debugging
-			Console.WriteLine($"Received Product: {rec.ProductName}, CategoryID: {rec.CategoryID}");
+			//var model = rec.FromProductUpdateDtoToProduct(id);
 
-			// Check if the Category exists
-			var categoryExists = _Context.Categories.Any(c => c.CategoryID == rec.CategoryID);
-			if (!categoryExists)
-				return BadRequest("Invalid CategoryID. The category does not exist.");
+			var model = _Context.Products.Find(id);
+			model.ProductName = rec.ProductName;
+			model.CategoryID = rec.CategoryID;
+			model.ProductName = rec.ProductName;
+			model.Price = rec.Price;
+			model.MfgName = rec.MfgName;
+			this._Context.SaveChanges();
+			return Ok(model);
+		}
 
-			// Map DTO to Product entity
-			var model = rec.FromProductCreateDtoToProduct();
+		[HttpDelete("{id}")]
+		public IActionResult DeleteProduct([FromRoute] int id) 
+		{
+			if (id == 0)
+				return BadRequest("Invalid ID");
 
-			// Log the mapped model for debugging
-			Console.WriteLine($"Mapped Product: {model.ProductName}, CategoryID: {model.CategoryID}");
-
-			// Add and save the Product
-			_Context.Products.Add(model);
+			var model = _Context.Products.Find(id);
+			_Context.Products.Remove(model);
 			_Context.SaveChanges();
-
-			// Return the created Product
-			return CreatedAtAction("Create", model.FromProductToProductDto());
+			return Ok(model);
 		}
 
 

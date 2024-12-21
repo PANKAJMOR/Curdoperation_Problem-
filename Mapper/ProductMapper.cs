@@ -29,5 +29,27 @@ namespace Curdoperation_Problem_.Mapper
 				MfgName = rec.MfgName,
 			};
 		}
+
+		//public static Product FromProductUpdateDtoToProduct(this ProductUpdateDto rec,int id)
+		//{
+			
+			
+		//   var model = _Context.Products.Find(id);
+		//	model.ProductName = rec.ProductName;
+		//	model.CategoryID = rec.CategoryID;
+		//	model.ProductName = rec.ProductName;
+		//	model.Price = rec.Price;
+		//	model.MfgName = rec.MfgName;
+
+		//	return new Product()
+		//	{
+
+		//		CategoryID = model.CategoryID,
+		//		ProductName = model.ProductName,
+		//		Price = model.Price,
+		//		MfgName = model.MfgName,
+		//	};
+
+		//}
 	}
 }
