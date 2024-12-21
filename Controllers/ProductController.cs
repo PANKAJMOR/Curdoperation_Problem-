@@ -41,33 +41,33 @@ namespace Curdoperation_Problem_.Controllers
 			return CreatedAtAction("Create", model.FromProductToProductDto());
 		}
 
-		//[HttpPost]
-		//public IActionResult Create([FromBody] ProductCreateDto rec)
-		//{
-		//	if (rec == null)
-		//		return BadRequest("No data is added");
+		[HttpPost]
+		public IActionResult Created([FromBody] ProductCreateDto rec)
+		{
+			if (rec == null)
+				return BadRequest("No data is added");
 
-		//	// Log incoming data for debugging
-		//	Console.WriteLine($"Received Product: {rec.ProductName}, CategoryID: {rec.CategoryID}");
+			// Log incoming data for debugging
+			Console.WriteLine($"Received Product: {rec.ProductName}, CategoryID: {rec.CategoryID}");
 
-		//	// Check if the Category exists
-		//	var categoryExists = _Context.Categories.Any(c => c.CategoryID == rec.CategoryID);
-		//	if (!categoryExists)
-		//		return BadRequest("Invalid CategoryID. The category does not exist.");
+			// Check if the Category exists
+			var categoryExists = _Context.Categories.Any(c => c.CategoryID == rec.CategoryID);
+			if (!categoryExists)
+				return BadRequest("Invalid CategoryID. The category does not exist.");
 
-		//	// Map DTO to Product entity
-		//	var model = rec.FromProductDtoToProduct();
+			// Map DTO to Product entity
+			var model = rec.FromProductCreateDtoToProduct();
 
-		//	// Log the mapped model for debugging
-		//	Console.WriteLine($"Mapped Product: {model.ProductName}, CategoryID: {model.CategoryID}");
+			// Log the mapped model for debugging
+			Console.WriteLine($"Mapped Product: {model.ProductName}, CategoryID: {model.CategoryID}");
 
-		//	// Add and save the Product
-		//	_Context.Products.Add(model);
-		//	_Context.SaveChanges();
+			// Add and save the Product
+			_Context.Products.Add(model);
+			_Context.SaveChanges();
 
-		//	// Return the created Product
-		//	return CreatedAtAction("Create", model.FromProductToProductDto());
-		//}
+			// Return the created Product
+			return CreatedAtAction("Create", model.FromProductToProductDto());
+		}
 
 
 
